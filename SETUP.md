@@ -152,9 +152,9 @@ de.remsfal.auth.session.secret=<ein-zufälliger-secret-string>
 ### 2.1 Repository klonen
 
 ```bash
-git clone -b Enrico-Goerlitz#644 https://github.com/enricogoerlitz/remsfal-backend.git
-git clone -b Enrico-Goerlitz#45 https://github.com/enricogoerlitz/remsfal-ocr.git
-git clone -b Enrico-Goerlitz#828 https://github.com/enricogoerlitz/remsfal-frontend.git
+git clone -b Enrico-Goerlitz#644 https://github.com/enricogoerlitz-winf-ba/remsfal-backend.git
+git clone -b Enrico-Goerlitz#45 https://github.com/enricogoerlitz-winf-ba/remsfal-ocr.git
+git clone -b Enrico-Goerlitz#828 https://github.com/enricogoerlitz-winf-ba/remsfal-frontend.git
 
 cd remsfal-backend/iac/azure/terraform
 ```

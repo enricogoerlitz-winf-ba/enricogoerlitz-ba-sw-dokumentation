@@ -2,7 +2,7 @@
 
 Diese Dokumentation beschreibt die Terraform-basierte Infrastruktur für die REMSFAL-Anwendung auf Microsoft Azure.
 
-**Repository:** [GitHub - IaC Terraform](https://github.com/enricogoerlitz/remsfal-backend/tree/Enrico-Goerlitz%23644/iac/azure/terraform)
+**Repository:** [GitHub - IaC Terraform](https://github.com/enricogoerlitz-winf-ba/remsfal-backend/tree/Enrico-Goerlitz%23644/iac/azure/terraform)
 
 ---
 

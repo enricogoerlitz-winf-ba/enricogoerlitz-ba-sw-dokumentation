@@ -22,11 +22,11 @@ Die Anwendung besteht aus folgenden Services:
 
 | Service | Beschreibung | Repository |
 |---------|--------------|------------|
-| **Platform-Service** | Haupt-Backend für Benutzerverwaltung, Authentifizierung und CRUD-Operationen | [remsfal-backend](https://github.com/enricogoerlitz/remsfal-backend/tree/Enrico-Goerlitz%23644) |
-| **Ticketing-Service** | Dokumentenspeicherung und Ticket-Funktionalität mit Cassandra-Backend | [remsfal-backend](https://github.com/enricogoerlitz/remsfal-backend/tree/Enrico-Goerlitz%23644) |
-| **Notification-Service** | E-Mail- und Benachrichtigungsdienst via Kafka-Messaging | [remsfal-backend](https://github.com/enricogoerlitz/remsfal-backend/tree/Enrico-Goerlitz%23644) |
-| **OCR-Service** | Dokumenten-OCR-Verarbeitung mittels Kafka-Consumer | [remsfal-ocr](https://github.com/enricogoerlitz/remsfal-ocr/tree/Enrico-Goerlitz%2345) |
-| **Frontend-Service** | Vue.js Single-Page-Application | [remsfal-frontend](https://github.com/enricogoerlitz/remsfal-frontend/tree/Enrico-Goerlitz%23828) |
+| **Platform-Service** | Haupt-Backend für Benutzerverwaltung, Authentifizierung und CRUD-Operationen | [remsfal-backend](https://github.com/enricogoerlitz-winf-ba/remsfal-backend/tree/Enrico-Goerlitz%23644) |
+| **Ticketing-Service** | Dokumentenspeicherung und Ticket-Funktionalität mit Cassandra-Backend | [remsfal-backend](https://github.com/enricogoerlitz-winf-ba/remsfal-backend/tree/Enrico-Goerlitz%23644) |
+| **Notification-Service** | E-Mail- und Benachrichtigungsdienst via Kafka-Messaging | [remsfal-backend](https://github.com/enricogoerlitz-winf-ba/remsfal-backend/tree/Enrico-Goerlitz%23644) |
+| **OCR-Service** | Dokumenten-OCR-Verarbeitung mittels Kafka-Consumer | [remsfal-ocr](https://github.com/enricogoerlitz-winf-ba/remsfal-ocr/tree/Enrico-Goerlitz%2345) |
+| **Frontend-Service** | Vue.js Single-Page-Application | [remsfal-frontend](https://github.com/enricogoerlitz-winf-ba/remsfal-frontend/tree/Enrico-Goerlitz%23828) |
 
 ---
 
@@ -41,7 +41,7 @@ Detaillierte Dokumentation der Azure-Infrastruktur, die mittels Terraform provis
 - Projektstruktur und verwendete Versionen
 - Erläuterung aller Azure-Ressourcen und deren Konfiguration
 - Naming Conventions und Tagging-Strategien
-- Link zum [GitHub-Repository](https://github.com/enricogoerlitz/remsfal-backend/tree/Enrico-Goerlitz%23644/iac/azure/terraform)
+- Link zum [GitHub-Repository](https://github.com/enricogoerlitz-winf-ba/remsfal-backend/tree/Enrico-Goerlitz%23644/iac/azure/terraform)
 
 ### 🔧 [Code-Refactoring (REFACTORING.md)](./REFACTORING.md)
 
@@ -68,6 +68,6 @@ Schritt-für-Schritt-Anleitung für das Deployment der Anwendung:
 
 | Repository | Services | Branch | Link |
 |------------|----------|--------|------|
-| **remsfal-backend** | CORE, Platform, Ticketing, Notification, IaC | `Enrico-Goerlitz#644` | [GitHub](https://github.com/enricogoerlitz/remsfal-backend/tree/Enrico-Goerlitz%23644) |
-| **remsfal-frontend** | Frontend | `Enrico-Goerlitz#828` | [GitHub](https://github.com/enricogoerlitz/remsfal-frontend/tree/Enrico-Goerlitz%23828) |
-| **remsfal-ocr** | OCR | `Enrico-Goerlitz#45` | [GitHub](https://github.com/enricogoerlitz/remsfal-ocr/tree/Enrico-Goerlitz%2345) |
+| **remsfal-backend** | CORE, Platform, Ticketing, Notification, IaC | `Enrico-Goerlitz#644` | [GitHub](https://github.com/enricogoerlitz-winf-ba/remsfal-backend/tree/Enrico-Goerlitz%23644) |
+| **remsfal-frontend** | Frontend | `Enrico-Goerlitz#828` | [GitHub](https://github.com/enricogoerlitz-winf-ba/remsfal-frontend/tree/Enrico-Goerlitz%23828) |
+| **remsfal-ocr** | OCR | `Enrico-Goerlitz#45` | [GitHub](https://github.com/enricogoerlitz-winf-ba/remsfal-ocr/tree/Enrico-Goerlitz%2345) |
