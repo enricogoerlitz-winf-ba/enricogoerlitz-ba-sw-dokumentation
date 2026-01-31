@@ -16,6 +16,7 @@ Diese Dokumentation beschreibt die Terraform-basierte Infrastruktur für die REM
 6. [Umgebungskonfiguration](#umgebungskonfiguration)
 7. [Secret Management](#secret-management)
 8. [Managed Identity & RBAC](#managed-identity--rbac)
+9. [Kostenschätzung](#kostenschätzung)
 
 ---
 
