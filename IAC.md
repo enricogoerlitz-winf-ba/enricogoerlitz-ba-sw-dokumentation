@@ -723,6 +723,61 @@ resource "azurerm_container_app" "apps" {
 
 ---
 
+## Kostenschätzung
+
+Die folgende Tabelle listet alle Azure-Ressourcen der **Development-Umgebung** mit ihrer Konfiguration auf. Diese Werte können direkt in den [Azure Pricing Calculator](https://azure.microsoft.com/en-us/pricing/calculator/) eingegeben werden, um die monatlichen Kosten zu ermitteln.
+
+> **💡 Hinweis:** Die Kostenschätzung basiert auf der Region **West Europe** und dem Pay-as-you-go-Preismodell. Reserved Instances andere Kostenoptimierungen können die Kosten weiter reduzieren.
+
+### Ressourcenübersicht für DEV-Umgebung
+
+| Ressource | Azure Service | Konfiguration (DEV) | Pricing Calculator Eingaben | Geschätzte Kosten/Monat |
+|-----------|---------------|---------------------|----------------------------|-------------------------|
+| **Container Apps Environment** | Container Apps | 1× Environment (inkludiert) | – | – |
+| **Frontend** | Container App | 0.25 vCPU, 0.5 Gi, min 0 / max 2 Replicas | Requests=0.2 Mio, vCPU=0.25, Memory=0.5 GiB, Concurrent=20, ExecTime=100ms | ~0$* |
+| **Platform** | Container App | 0.25 vCPU, 0.5 Gi, min 0 / max 3 Replicas | Requests=0.5 Mio, vCPU=0.25, Memory=0.5 GiB, Concurrent=20, ExecTime=150ms | ~0$* |
+| **Ticketing** | Container App | 0.25 vCPU, 0.5 Gi, min 0 / max 3 Replicas | Requests=0.2 Mio, vCPU=0.25, Memory=0.5 GiB, Concurrent=20, ExecTime=150ms | ~0$* |
+| **Notification** | Container App | 0.25 vCPU, 0.5 Gi, min 0 / max 2 Replicas | Requests=0.05 Mio, vCPU=0.25, Memory=0.5 GiB, Concurrent=20, ExecTime=100ms | ~0$* |
+| **OCR** | Container App | 0.5 vCPU, 1 Gi, min 0 / max 2 Replicas | Requests=0.05 Mio, vCPU=0.5, Memory=1 GiB, Concurrent=5, ExecTime=2000ms | ~0$* |
+| **PostgreSQL** | Azure Database for PostgreSQL Flexible Server | B_Standard_B1ms (1 vCore, 2 GB RAM), 32 GB Storage | Tier=Burstable, Instance=B1MS, Servers=1, Hours=730, Storage=32 GiB, Backup=LRS 32 GiB | ~$18.51 |
+| **Cosmos DB** | Azure Cosmos DB (Cassandra API) | 400 RU/s (Provisioned), Session Consistency | API=Cassandra, Operations=Provisioned, Regions=1, RUs=400, Storage=1 GB, AZ=No, Backup=2 | ~$23.61 |
+| **Event Hubs** | Azure Event Hubs | Standard SKU, 1 Throughput Unit, 3 Event Hubs | SKU=Standard, TUs=1, IngressEvents=0.1 Mio | ~$21.90 |
+| **Storage Account** | Azure Blob Storage | Standard LRS, Hot Tier, ~10 GB geschätzt | Type=Block Blob, Perf=Standard, Kind=GPv2, Structure=Flat, Tier=Hot, Redun=LRS, Cap=10 GB, Write=1, List=1, Read=5, Other=1, Retrieval=5 GB | ~$0.33 |
+| **Key Vault** | Azure Key Vault | Standard SKU, ~10 Secrets, ~1000 Operationen/Monat | SKU=Standard, Ops=1, AdvOps=0, CertRenewals=0, HSM=– | ~$0.03 |
+| **Container Registry** | Azure Container Registry | Basic SKU | Tier=Basic, Units=1, Days=30, ExtraStorage=0**, BuildSeconds=0***, Transfer=Inter-Region, Dest=North Europe, Outbound=1 GB | ~$5.00 |
+| **Azure Monitor** | Azure Monitor (Logs + Application Insights) | Pay-per-GB, ~5 GB/Monat geschätzt, 31 Tage Retention | Logs: BasicLogs=0.15 GB/Tag, Retention=1 Mo (free); AppInsights: Daily=0.1 GB/Tag, Retention=3 Mo (free), WebTests=0 | ~$9.15 |
+| **Managed Identity** | User-Assigned Managed Identity | Kostenlos | – | – |
+| | | | | |
+| | | **Gesamt (geschätzt)** | | **~$78.53 / ~€66,25** |
+
+> **\*** **Container Apps Freigrenzen:** Azure bietet monatliche Freigrenzen für den Consumption Plan: **2 Mio Requests**, **180.000 vCPU-Sekunden** und **360.000 GiB-Sekunden**. Bei `min_replicas=0` (Scale-to-Zero) und geringer DEV-Nutzung bleiben alle Services unter diesen Grenzen.
+
+> **\*\*** **ACR Inkludierter Storage:** Basic Tier enthält 10 GB Storage inklusive.
+
+> **\*\*\*** **ACR Build Minutes:** 100 Build-Minuten/Monat sind kostenlos enthalten. Bei DEV-Nutzung (wenige Deployments) wird diese Grenze nicht überschritten.
+
+### Erläuterungen zur Kostenschätzung
+
+| Aspekt | Erläuterung |
+|--------|-------------|
+| **Tier-Auswahl** | Für alle Services wurde der **günstigste verfügbare Tier** gewählt (Basic, Standard, Burstable). **Ausnahme:** Event Hubs benötigt den **Standard-Tier**, da nur dieser das Kafka-Protokoll unterstützt, welches für die Microservice-Kommunikation erforderlich ist. |
+| **PostgreSQL Storage (32 GB)** | Minimale Storage-Größe für Azure Database for PostgreSQL Flexible Server. Für DEV-Daten (Users, Projects, Metadata) ausreichend. |
+| **Cosmos DB RUs (400 RU/s)** | Minimum für Provisioned Throughput. Reicht für geringe DEV-Last. Autoscale wäre flexibler, aber teurer im Minimum. |
+| **Cosmos DB Storage (1 GB)** | Geschätzt für DEV: wenige Dokumente und Chat-Nachrichten. Cosmos DB rechnet pro angefangenem GB ab. |
+| **Event Hubs TUs (1)** | 1 Throughput Unit = 1 MB/s Ingress, 2 MB/s Egress. Für DEV-Messaging zwischen Services mehr als ausreichend. |
+| **Event Hubs Ingress (0.1 Mio)** | ~100.000 Events/Monat geschätzt für DEV: OCR-Requests, Notifications, wenige Test-Nachrichten. |
+| **Storage Account (10 GB)** | Geschätzt für Blob Storage: OCR-Dokumente (PDFs, Bilder), temporäre Dateien. Bei DEV-Nutzung konservativ geschätzt. |
+| **Storage Operations** | Write=10k, Read=50k, List=10k: Typische DEV-Last mit gelegentlichem Upload und häufigerem Lesen der Dokumente. |
+| **Key Vault Ops (1 × 10k)** | ~1000 Operationen/Monat: Secrets werden beim Container-Start gelesen und gecacht, daher geringe Anzahl. |
+| **Azure Monitor Logs (0.15 GB/Tag)** | ~4.5 GB/Monat für Container Apps Logs (5 Services × minimale Logs). Basic Logs gewählt, da günstigere Ingestion-Kosten und für DEV-Debugging ausreichend. |
+| **Application Insights (0.1 GB/Tag)** | ~3 GB/Monat für Telemetrie-Daten. Bei DEV-Last (wenige Requests) konservativ geschätzt. |
+| **Retention-Zeiträume** | Log Analytics: 31 Tage (kostenlos), Application Insights: 90 Tage (kostenlos). Längere Retention für DEV nicht erforderlich. |
+| **Container Registry (1 GB Outbound)** | Inter-Region Transfer nach North Europe für Disaster Recovery Szenarien. Bei reinem DEV meist 0, da Intra-Region kostenlos. |
+
+> **⚠️ Hinweis zur Schätzung:** Die Angaben zu GB, Events und Operationen sind hochspekulativ und dienen ausschließlich dazu, eine ungefähre Richtung der Kosten aufzuzeigen. Im tatsächlichen DEV-Einsatz können die Werte stark variieren – die Kosten können deutlich niedriger ausfallen (z.B. bei geringer Nutzung), aber unter Umständen auch höher. Die gewählten Tiers sind bewusst so niedrig wie möglich konfiguriert und sollten in für eine DEV-Umgebung ausreichen.
+
+---
+
 ## Hinweise
 
 > **⚠️ Produktionsempfehlung:** Diese Dokumentation beschreibt die IaC-Konfiguration für Development/Test. Für Production sollten zusätzliche Maßnahmen wie Zone Redundancy, Geo-Replikation und erweiterte Backup-Strategien implementiert werden.
